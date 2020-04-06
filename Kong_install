@@ -1,0 +1,56 @@
+ from https://docs.konghq.com/install/ubuntu/
+ 
+ $ sudo apt-get update
+ $ sudo apt-get install openssl libpcre3 procps perl
+ $ sudo dpkg -i kong-2.0.2.*.deb
+
+Prepare your database or declarative configuration file
+
+Kong can run either with or without a database.
+
+When using a database, you will use the kong.conf configuration file for setting Kong’s configuration properties at start-up and the database as storage of all configured entities, such as the Routes and Services to which Kong proxies.
+
+When not using a database, you will use kong.conf its configuration properties and a kong.yml file for specifying the entities as a declarative configuration.
+
+Using a database
+
+Configure Kong so it can connect to your database. Kong supports both PostgreSQL 9.5+ and Cassandra 3.x.x as its datastore.
+
+If you are using Postgres, please provision a database and a user before starting Kong, ie:
+
+CREATE USER kong; CREATE DATABASE kong OWNER kong;
+
+
+see https://docs.konghq.com/2.0.x/configuration/#database for detailes of how to copnfigure Kong with PostgreSQL DB 
+
+
+
+
+Now, run the Kong migrations:
+
+ $ kong migrations bootstrap [-c /path/to/kong.conf]
+Note for Kong < 0.15: with Kong versions below 0.15 (up to 0.14), use the up sub-command instead of bootstrap. Also note that with Kong < 0.15, migrations should never be run concurrently; only one Kong node should be performing migrations at a time. This limitation is lifted for Kong 0.15, 1.0, and above.
+
+Without a database
+
+If you are going to run Kong in DB-less mode, you should start by generating declarative config file. The following command will generate a kong.yml file in your current folder. It contains instructions about how to fill it up.
+
+ $ kong config init
+After filling up the kong.yml file, edit your kong.conf file. Set the database option to off and the declarative_config option to the path of your kong.yml file:
+
+ database = off
+ declarative_config = /path/to/kong.yml
+
+Start Kong
+
+ $ kong start [-c /path/to/kong.conf]
+
+Use Kong
+
+Kong is running:
+
+ $ curl -i http://localhost:8001/
+Quickly learn how to use Kong with the 5-minute Quickstart.
+
+
+

@@ -1,0 +1,69 @@
+PostgreSQL packages for Debian and Ubuntu
+The PostgreSQL Global Development Group (PGDG) maintains an APT repository of PostgreSQL packages for Debian and Ubuntu located at http://apt.postgresql.org/pub/repos/apt/. We aim at building PostgreSQL server packages as well as extensions and modules packages on several Debian/Ubuntu releases for all PostgreSQL versions supported.
+
+Currently, we support
+
+Debian 8 (jessie), 9 (stretch), 10 (buster), 11 (bullseye, amd64+ppc64), and unstable (sid)
+Ubuntu 16.04 (xenial), 18.04 (bionic), 19.10 (eoan, amd64 only), 20.04 (focal, amd64+ppc64el)
+Architectures: amd64 (64-bit x86), i386 (32-bit x86), ppc64el (little-endian 64-bit POWER)
+PostgreSQL 9.5, 9.6, 10, 11, 12, 13 devel
+Server extensions such as Slony-I, various PL languages, and datatypes
+Applications like pgadmin4, omnidb, pgbouncer, and pgpool-II
+Packages for older PostgreSQL versions and older Debian/Ubuntu distributions will continue to stay in the repository, but will in most cases not be updated anymore.
+
+Quickstart
+Import the repository key from https://www.postgresql.org/media/keys/ACCC4CF8.asc:
+
+sudo apt-get install curl ca-certificates gnupg
+curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+Create /etc/apt/sources.list.d/pgdg.list. The distributions are called codename-pgdg. In the example, replace buster with the actual distribution you are using:
+
+deb http://apt.postgresql.org/pub/repos/apt buster-pgdg main
+(You may determine the codename of your distribution by running lsb_release -c). For a shorthand version of the above, presuming you are using a supported release:
+
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+Finally, update the package lists, and start installing packages:
+
+sudo apt-get update
+sudo apt-get install postgresql-11 pgadmin4
+Alternately, this shell script will automate the repository setup. The script is included in the postgresql-common package in Debian and Ubuntu, so you can also run it straight from there:
+
+sudo apt install postgresql-common
+sudo sh /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
+Note that the shell script leaves the source package repo (deb-src) commented out; if you need source packages, you will need to modify /etc/apt/sources.list.d/pgdg.list to enable it.
+
+Have a look at the FAQ.
+
+Note: This repository provides "postgresql", "postgresql-contrib", and "postgresql-client" meta-packages that depend on the latest postgresql-x.y, ... packages, similar to the ones present in Debian and Ubuntu. Once a new PostgreSQL version is released, these meta-packages will be updated to depend on the new version. If you rather want to stay with a particular PostgreSQL version, you should install specific packages like "postgresql-11" instead of "postgresql".
+
+For packages of development/alpha/beta versions of PostgreSQL, see the FAQ entry about beta versions.
+
+
+
++++++++++++++++++++++++++++
+
+
+Included in distribution
+Ubuntu includes PostgreSQL by default. To install PostgreSQL on Ubuntu, use the apt-get (or other apt-driving) command:
+
+apt-get install postgresql-11
+The repository contains many different packages including third party addons. The most common and important packages are (substitute the version number as required):
+
+postgresql-client-11	client libraries and client binaries
+postgresql-11	core database server
+postgresql-contrib-9.x	additional supplied modules (part of the postgresql-xx package in version 10 and later)
+libpq-dev	libraries and headers for C language frontend development
+postgresql-server-dev-11	libraries and headers for C language backend development
+pgadmin4	pgAdmin 4 graphical administration utility
+
+
+
+++++++++++++++++++++++++++++
+
+
+https://medium.com/@vasista/kong-api-gateway-installation-guide-for-beginners-ab6c796b36bf
+
+
+
+
+
